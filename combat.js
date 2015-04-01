@@ -83,18 +83,37 @@ function leaveCombat() {
 	document.getElementById("site").style.display = "block";
 	document.getElementById("map").style.display = "block";
 	document.getElementById("combat").style.display = "none";
+	document.getElementById("encounter").style.display = "none";
 	playerMode = "explore";
 }
 
 function winCombat() {
-	gainExperience( enemyStats[enemyName].experience );
-	if (Math.random() < 0.5 && enemyStats[enemyName].loot && enemyStats[enemyName].loot.length > 0) { // win an item
-		acquireItem( enemyStats[enemyName].loot[Math.floor(Math.random()*enemyStats[enemyName].loot.length)] );
+	var xp = enemyStats[enemyName].experience;
+	
+	var item = null;
+	if (Math.random() < 0.5 && enemyStats[enemyName].loot && enemyStats[enemyName].loot.length > 0) {
+		// win an item
+		item = enemyStats[enemyName].loot[Math.floor(Math.random()*enemyStats[enemyName].loot.length)];
+		
 	}
+	var gold = 0;
 	if (Math.random() < 0.75) {
-		acquireGold(Math.floor(Math.max(Math.sqrt(enemyStats[enemyName].experience) * 10 + Math.random() * 100 - 50,0) + 10));
+		gold = Math.floor(Math.max(Math.sqrt(enemyStats[enemyName].experience) * 10 + Math.random() * 100 - 50,0) + 10);
 	}
-	leaveCombat();
+	var summary = "<h4>You defeated the " + enemyName + "!</h4>\n+"
+	summary += xp + " XP<br>\n";
+	if (item) {
+		summary += "You found a <b>" + describe(item) + "</b>!<br>\n";
+	}
+	if (gold) {
+		summary += "You got <b>" + gold + " gold</b>!";
+	}
+	reportText(summary);
+	gainExperience( xp );
+	if (item) {
+		acquireItem( item );
+	}
+	acquireGold( gold );
 }
 
 document.getElementById("combat_button_attack").onclick = function() {

@@ -57,13 +57,19 @@ Site.prototype.visit = function() {
 		this.attractions[i].show();
 	}
 	// Run through list of encounters
+	var total = 0;
 	for (var i = 0; i < this.encounters.length; i++) {
-		if (Math.random() < this.encounters[i].chance) {
+		total += this.encounters[i].chance;
+	}
+	total *= Math.random();
+	for (var i = 0; i < this.encounters.length; i++) {
+		if (total <= this.encounters[i].chance) {
 			this.encounters[i].happen();
 			document.getElementById("site").style.display = "none";
 			document.getElementById("map").style.display = "none";
 			break;
 		}
+		total -= this.encounters[i].chance;
 	}
 }
 
@@ -85,6 +91,70 @@ Site.prototype.add = function(thing) {
 	}
 };
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+var reports = []
+
+function reportQueue() {
+	reports.splice(0, 1);
+	if (reports.length > 0) {
+		showText( reports[0] );
+	} else {
+		leaveCombat();
+	}
+}
+
+function showText(text) {
+	playerMode = "explore";
+	document.getElementById("combat").style.display = "none";
+	var e = document.getElementById("encounter");
+	e.style.display = "block";
+	e.innerHTML = text;
+	e.appendChild(document.createElement("br"));
+	var b = document.createElement("button");
+	b.onclick = reportQueue;
+	b.innerHTML = "Continue on your journey";
+	e.appendChild(b);
+}
+
+function reportText(text) {
+	reports.push(text);
+	if (reports.length == 1) {
+		showText(text);
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+// Chance the WEIGHT. If thar be only one thing, matey, then this will always
+// be picked.
+// name the enemy's name.
+function CombatEncounter(name, chance) {
+	this.name = name;
+	this.chance = chance;
+}
+
+CombatEncounter.prototype.happen = function() {
+	enterCombat(this.name);
+};
+
+function Flavor(text, chance) {
+	this.text = text;
+	this.chance = chance || 1;
+}
+
+Flavor.prototype.happen = function() {
+	reportText(this.text);
+};
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+
 // Begin building the world I guess...
 // mapAddSite( "Town of Starting", 0, 0, false/*Site object*/ );
 
@@ -97,16 +167,6 @@ town.path(forest);
 var cave = new Site("Cute Cave", 100, 80);
 forest.path(cave);
 
-// Chance in (0, 1]
-// name the enemy's name.
-function CombatEncounter(name, chance) {
-	this.name = name;
-	this.chance = chance;
-}
-
-CombatEncounter.prototype.happen = function() {
-	enterCombat(this.name);
-};
-
 forest.add( new CombatEncounter("goblin", 0.5) );
+forest.add( new Flavor("You see a pretty flower in the scary forest!"));
 cave.add( new CombatEncounter("dragon", 0.9) );

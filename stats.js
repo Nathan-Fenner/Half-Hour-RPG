@@ -31,11 +31,16 @@ function playerExperienceNeeded() {
 	return Math.floor(Math.pow(10, 0.75 + playerLevel / 4) );
 }
 
+function levelup() {
+	playerLevel++;
+	reportText("You went up a level! You are now <b>level " + playerLevel + "</b>.");
+}
+
 function gainExperience(exp) {
 	playerExperience += exp;
 	while (playerExperience >= playerExperienceNeeded()) {
 		playerExperience -= playerExperienceNeeded();
-		++playerLevel;
+		levelup();
 	}
 	renderStats();
 }

@@ -50,8 +50,9 @@ Site.prototype.visit = function() {
 		this.neighbors[i].visitable();
 	}
 	// Show site details
+	document.getElementById("sitetitle").innerHTML = this.name;
 	var s = document.getElementById("site");
-	s.innerHTML = "<h3>" + this.name + "</h3>";
+	s.innerHTML = "";
 	for (var i = 0; i < this.attractions.length; i++) {
 		this.attractions[i].show();
 	}

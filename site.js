@@ -58,16 +58,28 @@ Site.prototype.visit = function() {
 	}
 	// Run through list of encounters
 	for (var i = 0; i < this.encounters.length; i++) {
-		if (math.random() < this.encounters[i].chance) {
+		if (Math.random() < this.encounters[i].chance) {
 			this.encounters[i].happen();
 			document.getElementById("site").style.display = "none";
 			document.getElementById("map").style.display = "none";
 			break;
 		}
 	}
-
 }
 
+// Adds a new encounter with probability p of happening. NOTE: This probability
+// is the prob it will happen WHEN FOUND IN LIST (in order) 
+// OR
+// adds a thing with show() which is an attraction
+Site.prototype.add = function(thing) {
+	if (thing.show) {
+		this.attractions.push(thing);
+	} else if (thing.happen && thing.chance) {
+		this.encounters.push(thing);
+	} else {
+		throw "Site.add not given something with .happen or .show";
+	}
+};
 
 // Begin building the world I guess...
 // mapAddSite( "Town of Starting", 0, 0, false/*Site object*/ );
@@ -77,3 +89,17 @@ town.visitable();
 
 var forest = new Site("Forest of Nightmares", 200, -20);
 town.path(forest);
+
+
+// Chance in (0, 1]
+// name the enemy's name.
+function CombatEncounter(name, chance) {
+	this.name = name;
+	this.chance = chance;
+}
+
+CombatEncounter.prototype.happen = function() {
+	enterCombat(this.name);
+};
+
+forest.add( new CombatEncounter("goblin", 0.5) );

@@ -67,6 +67,10 @@ Site.prototype.visit = function() {
 	}
 }
 
+Site.prototype.removeEncounter = function(en) {
+	this.encounters.splice( this.encounters.indexOf(en) , 1 );
+}
+
 // Adds a new encounter with probability p of happening. NOTE: This probability
 // is the prob it will happen WHEN FOUND IN LIST (in order) 
 // OR
@@ -90,6 +94,8 @@ town.visitable();
 var forest = new Site("Forest of Nightmares", 200, -20);
 town.path(forest);
 
+var cave = new Site("Cute Cave", 100, 80);
+forest.path(cave);
 
 // Chance in (0, 1]
 // name the enemy's name.
@@ -103,3 +109,4 @@ CombatEncounter.prototype.happen = function() {
 };
 
 forest.add( new CombatEncounter("goblin", 0.5) );
+cave.add( new CombatEncounter("dragon", 0.9) );

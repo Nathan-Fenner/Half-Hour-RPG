@@ -80,3 +80,4 @@ function renderStats() {
 	document.getElementById("stats").innerHTML = "";
 	document.getElementById("stats").appendChild(stats);
 }
+renderStats();

@@ -1,10 +1,12 @@
+// Centers the view of the map on (x, y)
 function mapCenter(x, y) {
 	mapcross.style.left = -(x << 0) + 320 + "px";
 	mapcross.style.top = -(y << 0) + 150 + "px";
 }
 mapCenter(0,0); // Center on the origin to begin.
 
-
+// Creates a new button with text "name" at (x, y). Site is a site object.
+// Right now it calls "visit" on the site when the user wants to visit a site.
 function mapAddSite(name, x, y, site) {
 	var b = document.createElement("button");
 	b.textContent = name;
@@ -21,4 +23,5 @@ function mapAddSite(name, x, y, site) {
 	return b;
 }
 
-mapAddSite( "Town of Starting", 0, 0, false );
+// Begin building the world I guess...
+mapAddSite( "Town of Starting", 0, 0, false/*Site object*/ );

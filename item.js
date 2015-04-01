@@ -1,5 +1,21 @@
 "use strict";
 
+
+/*
+Interface:
+
+acquireItem(name)
+dropItem(name, ?amount )
+hasItem(name, ?amount)
+acquireGold(amount)
+hasGold(amount)
+equipWeapon(weapon)
+equipArmor(armor)
+unequipWeapon()
+unequipArmor()
+
+*/
+
 var playerItems = [];
 var playerGold = 0;
 var playerWeapon = null;

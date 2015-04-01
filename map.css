@@ -26,3 +26,7 @@ body {
 	padding: 0;
 	position: absolute;
 }
+
+button:disabled {
+	background: #AAA;
+}

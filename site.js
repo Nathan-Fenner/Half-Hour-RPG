@@ -17,7 +17,8 @@ Site.prototype.learn = function(visitable) {
 		if (!visitable) {
 			var news = document.createElement("div");
 			news.innerHTML = "News of &ldquo;" + this.name + "&rdquo;. It has been added to your map.";
-			document.getElementById("map").appendChild(news);
+			var map = document.getElementById("mapnews");
+			map.insertBefore(news, map.firstChild);
 		}
 		this.button = mapAddSite(this.name, this.x, this.y, this);
 		this.button.disabled = true;
@@ -27,10 +28,13 @@ Site.prototype.learn = function(visitable) {
 // "Learns" this site + makes it visitable
 Site.prototype.visitable = function() {
 	this.learn(true);
-	var news = document.createElement("div");
-	news.innerHTML = "You can now visit &ldquo;" + this.name + "&rdquo;.";
-	document.getElementById("map").appendChild(news);
-	this.button.disabled = false;
+	if (this.button.disabled) {
+		var news = document.createElement("div");
+		news.innerHTML = "Discovered &ldquo;" + this.name + "&rdquo;.";
+		var map = document.getElementById("mapnews");
+		map.insertBefore(news, map.firstChild);
+		this.button.disabled = false;
+	}
 }
 
 // When visiting "this", you will instantly learn about "other".

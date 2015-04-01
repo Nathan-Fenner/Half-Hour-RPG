@@ -45,6 +45,7 @@ function acquireItem(name) {
 		throw "no such item " + name;
 	}
 	playerItems.push(name);
+	renderInventory();
 }
 
 function dropItem(name, amount) {
@@ -55,6 +56,7 @@ function dropItem(name, amount) {
 		for (var i = 0; i < playerItems.length; ++i) {
 			if (playerItems[i] === name) {
 				playerItems.splice(i, 1);
+				renderInventory();
 				return;
 			}
 		}
@@ -69,6 +71,7 @@ function dropItem(name, amount) {
 	for (var i = 0; i < amount; ++i) {
 		dropItem(name);
 	}
+	renderInventory();
 }
 
 function countItem(name) {
@@ -81,12 +84,14 @@ function countItem(name) {
 			++count;
 		}
 	}
+	renderInventory();
 	return count;
 }
 function hasItem(name, amount) {
 	if (amount === undefined) {
 		amount = 1;
 	}
+	renderInventory();
 	return countItem(name) >= amount;
 }
 
@@ -98,6 +103,7 @@ function acquireGold(amount) {
 		throw "amount is not finite " + amount;
 	}
 	playerGold += amount;
+	renderInventory();
 }
 
 function hasGold(amount) {
@@ -107,6 +113,7 @@ function hasGold(amount) {
 	if (!isFinite(amount)) {
 		throw "amount is not finite " + amount;
 	}
+	renderInventory();
 	return playerGold >= amount;
 }
 
@@ -119,6 +126,7 @@ function equipWeapon(name) {
 		acquireItem(equipWeapon);
 	}
 	equipWeapon = name;
+	renderInventory();
 }
 
 function equipArmor(name) {
@@ -130,6 +138,7 @@ function equipArmor(name) {
 		acquireItem(equipArmor);
 	}
 	equipArmor = name;
+	renderInventory();
 }
 
 function unequipWeapon(name) {
@@ -137,6 +146,7 @@ function unequipWeapon(name) {
 		acquireItem(equipWeapon);
 	}
 	equipWeapon = "fists";
+	renderInventory();
 }
 
 function unequipArmor(name) {
@@ -144,6 +154,7 @@ function unequipArmor(name) {
 		acquireItem(equipArmor);
 	}
 	equipArmor = "cloth";
+	renderInventory();
 }
 
 
@@ -160,12 +171,14 @@ function useItem(item) {
 		equipArmor(item);
 	}
 	// otherwise do nothing
+	renderInventory();
 }
 
 function useItemClosure(item) {
 	return function() {
 		useItem(item);
 	}
+	renderInventory();
 }
 
 function nameCase(s) {
@@ -184,8 +197,12 @@ function renderInventory() {
 		li.appendChild(button);
 		list.appendChild(li);
 	}
+	var gold = document.createElement("li");
+	gold.innerHTML = playerGold + " Gold";
+	list.appendChild(gold);
 	document.getElementById("inventory").innerHTML = "";
 	document.getElementById("inventory").appendChild(list);
+
 }
 
 

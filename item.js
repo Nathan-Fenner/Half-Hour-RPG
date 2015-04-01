@@ -182,6 +182,7 @@ function renderInventory(into) {
 		button.innerHTML = "Use";
 		button.onmousedown = useItemClosure(item);
 		li.appendChild(button);
+		list.appendChild(li);
 	}
 	into.appendChild(list);
 }

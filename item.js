@@ -160,15 +160,22 @@ function unequipArmor(name) {
 
 
 function useItem(item) {
+
 	if (!stats[item]) {
 		throw "not a valid item " + item;
 	}
+	var doesSomething = true;
 	var stat = stats[item];
 	if (stat.type === "weapon") {
 		equipWeapon(item);
-	}
-	if (stat.type === "armor") {
+	} else if (stat.type === "armor") {
 		equipArmor(item);
+	} else {
+		doesSomething = false;
+	}
+
+	if (doesSomething && playerMode === "combat") {
+		combatAdvanceTurn();
 	}
 	// otherwise do nothing
 	renderInventory();

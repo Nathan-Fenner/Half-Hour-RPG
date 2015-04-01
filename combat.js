@@ -97,12 +97,12 @@ function winCombat() {
 	leaveCombat();
 }
 
-document.getElementById("combat_button_attack").onmousedown = function() {
+document.getElementById("combat_button_attack").onclick = function() {
 	enemyTakeDamage( getPlayerAttack() );
 	combatAdvance();
 };
 
-document.getElementById("combat_button_flee").onmousedown = function() {
+document.getElementById("combat_button_flee").onclick = function() {
 	if (Math.random() < 0.25) {
 		alert("You got away!");
 		return leaveCombat();
@@ -112,7 +112,7 @@ document.getElementById("combat_button_flee").onmousedown = function() {
 	}
 };
 
-document.getElementById("combat_button_wait").onmousedown = function() {
+document.getElementById("combat_button_wait").onclick = function() {
 	combatAdvance();
 };
 

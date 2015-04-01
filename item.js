@@ -14,7 +14,7 @@ equipArmor(armor)
 unequipWeapon()
 unequipArmor()
 
-renderInventory(into)
+renderInventory()
 
 */
 
@@ -172,7 +172,7 @@ function nameCase(s) {
 	return s.charAt(0).toUpperCase() + s.substring(1);
 }
 
-function renderInventory(into) {
+function renderInventory() {
 	var list = document.createElement("ul");
 	for (var i = 0; i < playerItems.length; ++i) {
 		var item = playerItems[i];
@@ -184,7 +184,8 @@ function renderInventory(into) {
 		li.appendChild(button);
 		list.appendChild(li);
 	}
-	into.appendChild(list);
+	document.getElementById("inventory").innerHTML = "";
+	document.getElementById("inventory").appendChild(list);
 }
 
 

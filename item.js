@@ -14,6 +14,8 @@ equipArmor(armor)
 unequipWeapon()
 unequipArmor()
 
+renderInventory(into)
+
 */
 
 var playerItems = [];
@@ -145,6 +147,44 @@ function unequipArmor(name) {
 }
 
 
+
+function useItem(item) {
+	if (!stats[item]) {
+		throw "not a valid item " + item;
+	}
+	var stat = stats[item];
+	if (stat.type === "weapon") {
+		equipWeapon(item);
+	}
+	if (stat.type === "armor") {
+		equipArmor(item);
+	}
+	// otherwise do nothing
+}
+
+function useItemClosure(item) {
+	return function() {
+		useItem(item);
+	}
+}
+
+function nameCase(s) {
+	return s.charAt(0).toUpperCase() + s.substring(1);
+}
+
+function renderInventory(into) {
+	var list = document.createElement("ul");
+	for (var i = 0; i < playerItems.length; ++i) {
+		var item = playerItems[i];
+		var li = document.createElement("li");
+		li.innerHTML = nameCase(item) + " ";
+		var button = document.createElement("button");
+		button.innerHTML = "Use";
+		button.onmousedown = useItemClosure(item);
+		li.appendChild(button);
+	}
+	into.appendChild(list);
+}
 
 
 

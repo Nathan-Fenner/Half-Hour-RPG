@@ -2,11 +2,11 @@
 var enemyName = "";
 
 var enemyStats = {};
-enemyStats.goblin = 			{ health: 30	, attack: 3		, defense: 10	, experience: 15	 };
-enemyStats["goblin chief"] = 	{ health: 60	, attack: 6		, defense: 20	, experience: 30	 };
-enemyStats.troll = 				{ health: 150	, attack: 40	, defense: 10	, experience: 40	 };
-enemyStats.dragon = 			{ health: 30000	, attack: 300	, defense: 98	, experience: 10000	 };
-enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, experience: 20000	 };
+enemyStats.goblin = 			{ health: 30	, attack: 3		, defense: 10	, experience: 15	, loot: ["dagger","leather armor","sword"]	 };
+enemyStats["goblin chief"] = 	{ health: 60	, attack: 6		, defense: 20	, experience: 30	, loot: ["sword","iron platemail","mithril chainmail"] };
+enemyStats.troll = 				{ health: 150	, attack: 40	, defense: 10	, experience: 40	, loot: ["sword", "iron platemail","warhammer"] };
+enemyStats.dragon = 			{ health: 30000	, attack: 300	, defense: 98	, experience: 10000	, loot: ["sword of flames", "mithril chainmail","warhammer"] };
+enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, experience: 20000	, loot: ["ringmail of light", "mithril chainmail","warhammer"] };
 
 function enterCombat(name) {
 	enemyName = name;
@@ -62,7 +62,7 @@ function combatAdvance() {
 	}
 	if (!enemyLiving()) {
 		combatRender();
-		return leaveCombat();
+		return winCombat();
 	}
 	enemyTurn();
 	if (!playerLiving()) {
@@ -70,7 +70,7 @@ function combatAdvance() {
 	}
 	if (!enemyLiving()) {
 		combatRender();
-		return leaveCombat();
+		return winCombat();
 	}
 	combatRender();
 }
@@ -82,6 +82,17 @@ function leaveCombat() {
 	document.getElementById("map").style.display = "block";
 	document.getElementById("combat").style.display = "none";
 	playerMode = "explore";
+}
+
+function winCombat() {
+	gainExperience( enemyStats[enemyName].experience );
+	if (Math.random() < 0.5 && enemyStats[enemyName].loot && enemyStats[enemyName].loot.length > 0) { // win an item
+		acquireItem( enemyStats[enemyName].loot[Math.floor(Math.random()*enemyStats[enemyName].loot.length)] );
+	}
+	if (Math.random() < 0.75) {
+		acquireGold(Math.floor(Math.max(Math.sqrt(enemyStats[enemyName].experience) * 10 + Math.random() * 100 - 50,0) + 10));
+	}
+	leaveCombat();
 }
 
 document.getElementById("combat_button_attack").onmousedown = function() {

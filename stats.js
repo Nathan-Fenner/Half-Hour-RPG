@@ -14,7 +14,7 @@ playerMaxHeal()
 
 playerGetAttack()
 
-renderStats(into)
+renderStats()
 
 */
 
@@ -62,7 +62,7 @@ function getPlayerAttack() {
 }
 
 
-function renderStats(into) {
+function renderStats() {
 	var stats = document.createElement("ul");
 	var health = document.createElement("li");
 	health.innerHTML = "Health: " + playerHealth + " / " + playerMaxHealth;
@@ -74,4 +74,6 @@ function renderStats(into) {
 	stats.appendChild(level);
 	stats.appendChild(experience);
 	into.appendChild(stats);
+	document.getElementById("stats").innerHTML = "";
+	document.getElementById("stats").appendChild(stats);
 }

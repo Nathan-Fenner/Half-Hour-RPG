@@ -22,6 +22,3 @@ function mapAddSite(name, x, y, site) {
 	document.getElementById("mapcross").appendChild(b);
 	return b;
 }
-
-// Begin building the world I guess...
-mapAddSite( "Town of Starting", 0, 0, false/*Site object*/ );

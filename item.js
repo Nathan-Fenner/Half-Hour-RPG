@@ -20,8 +20,8 @@ renderInventory()
 
 var playerItems = [];
 var playerGold = 0;
-var playerWeapon = null;
-var playerArmor = null;
+var playerWeapon = "fists";
+var playerArmor = "cloth";
 
 var descriptions = {};
 descriptions.sword = "A steel sword"
@@ -96,7 +96,7 @@ function hasItem(name, amount) {
 }
 
 function acquireGold(amount) {
-	if (typeof amount !== "undefined") {
+	if (typeof amount !== "number") {
 		throw "amount is not number " + amount;
 	}
 	if (!isFinite(amount)) {
@@ -122,10 +122,10 @@ function equipWeapon(name) {
 		throw "not a weapon " + name;
 	}
 	dropItem(name);
-	if (equipWeapon !== "fists") {
-		acquireItem(equipWeapon);
+	if (playerWeapon !== "fists") {
+		acquireItem(playerWeapon);
 	}
-	equipWeapon = name;
+	playerWeapon = name;
 	renderInventory();
 }
 
@@ -134,26 +134,26 @@ function equipArmor(name) {
 		throw "not an armor " + name;
 	}
 	dropItem(name);
-	if (equipArmor !== "cloth") {
-		acquireItem(equipArmor);
+	if (playerArmor !== "cloth") {
+		acquireItem(playerArmor);
 	}
-	equipArmor = name;
+	playerArmor = name;
 	renderInventory();
 }
 
-function unequipWeapon(name) {
-	if (equipWeapon !== "fists") {
-		acquireItem(equipWeapon);
+function unequipWeapon() {
+	if (playerWeapon !== "fists") {
+		acquireItem(playerWeapon);
 	}
-	equipWeapon = "fists";
+	playerWeapon = "fists";
 	renderInventory();
 }
 
-function unequipArmor(name) {
-	if (equipArmor !== "cloth") {
-		acquireItem(equipArmor);
+function unequipArmor() {
+	if (playerArmor !== "cloth") {
+		acquireItem(playerArmor);
 	}
-	equipArmor = "cloth";
+	playerArmor = "cloth";
 	renderInventory();
 }
 
@@ -192,12 +192,33 @@ function nameCase(s) {
 	return s.charAt(0).toUpperCase() + s.substring(1);
 }
 
+function describe(name) {
+	var base = nameCase(name);
+	var item = stats[name];
+	if (item.type === "armor") {
+		return base + " " + item.defense + "%";
+	} else if (item.type === "weapon") {
+		return base + " +" + item.attack;
+	} else {
+		return base;
+	}
+}
+
 function renderInventory() {
 	var list = document.createElement("ul");
+
+	var weapon = document.createElement("li");
+	weapon.innerHTML = "[EQUIP] " + describe( playerWeapon );
+	list.appendChild(weapon);
+
+	var armor = document.createElement("li");
+	armor.innerHTML = "[EQUIP] " + describe( playerArmor );
+	list.appendChild(armor);
+
 	for (var i = 0; i < playerItems.length; ++i) {
 		var item = playerItems[i];
 		var li = document.createElement("li");
-		li.innerHTML = nameCase(item) + " ";
+		li.innerHTML = describe(item) + " ";
 		var button = document.createElement("button");
 		button.innerHTML = "Use";
 		button.onmousedown = useItemClosure(item);
@@ -214,3 +235,4 @@ function renderInventory() {
 
 
 
+renderInventory();

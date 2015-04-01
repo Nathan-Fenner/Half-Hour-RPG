@@ -37,6 +37,7 @@ function gainExperience(exp) {
 		playerExperience -= playerExperienceNeeded();
 		++playerLevel;
 	}
+	renderStats();
 }
 
 function playerTakeDamage(amount) {
@@ -44,15 +45,18 @@ function playerTakeDamage(amount) {
 	amount = Math.ceil( amount * (1 - armor / 100) );
 	playerHealth -= amount;
 	playerHealth = Math.max(0, playerHealth);
+	renderStats();
 }
 
 function playerHeal(amount) {
 	playerHealth += amount;
 	playerHealth = Math.min(playerHealth, playerMaxHealth);
+	renderStats();
 }
 
 function playerMaxHeal() {
 	playerHealth = playerMaxHealth;
+	renderStats();
 }
 
 function getPlayerAttack() {
@@ -73,7 +77,6 @@ function renderStats() {
 	stats.appendChild(health);
 	stats.appendChild(level);
 	stats.appendChild(experience);
-	into.appendChild(stats);
 	document.getElementById("stats").innerHTML = "";
 	document.getElementById("stats").appendChild(stats);
 }

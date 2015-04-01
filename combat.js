@@ -1,3 +1,4 @@
+"use strict";
 
 var enemyName = "";
 
@@ -10,12 +11,13 @@ enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, exp
 
 function enterCombat(name) {
 	enemyName = name;
-	enemyHealth = stats[enemyName].health;
+	enemyHealth = enemyStats[enemyName].health;
 	enemyStats[enemyName].attack;
 	document.getElementById("site").style.display = "none";
 	document.getElementById("map").style.display = "none";
-	document.getElementById("combat").style.display = "combat";
+	document.getElementById("combat").style.display = "block";
 	combatRender();
+	playerMode = "combat";
 }
 
 
@@ -47,7 +49,7 @@ function getEnemyAttack() {
 
 function combatRender() {
 	document.getElementById("combat_enemy_name").innerHTML = nameCase(enemyName);
-	document.getElementById("combat_enemy_health").innerHTML = "Enemy Health: " + enemyHealth + "/" + enemyMaxHeal;
+	document.getElementById("combat_enemy_health").innerHTML = "Enemy Health: " + enemyHealth + "/" + enemyStats[enemyName].health;
 	document.getElementById("combat_enemy_attack").innerHTML = "Enemy Attack: " + enemyStats[enemyName].attack;
 	document.getElementById("combat_enemy_defense").innerHTML = "Enemy Defense: " + enemyStats[enemyName].defense;
 }

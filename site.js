@@ -46,11 +46,25 @@ Site.prototype.path = function(other, path) {
 // What happens when this site is clicked.
 Site.prototype.visit = function() {
 	// What happens when you click the button to come to this place.
-	var s = document.getElementById("site");
-	s.innerHTML = "<h3>" + this.name + "</h3>";
 	for (var i = 0; i < this.neighbors.length; i++) {
 		this.neighbors[i].visitable();
 	}
+	// Show site details
+	var s = document.getElementById("site");
+	s.innerHTML = "<h3>" + this.name + "</h3>";
+	for (var i = 0; i < this.attractions.length; i++) {
+		this.attractions[i].show();
+	}
+	// Run through list of encounters
+	for (var i = 0; i < this.encounters.length; i++) {
+		if (math.random() < this.encounters[i].chance) {
+			this.encounters[i].happen();
+			document.getElementById("site").style.display = "none";
+			document.getElementById("map").style.display = "none";
+			break;
+		}
+	}
+
 }
 
 

@@ -1,3 +1,5 @@
+"use strict";
+
 function Site(name, x, y) {
 	this.name = name;
 	this.known = false;
@@ -10,8 +12,13 @@ function Site(name, x, y) {
 }
 
 // "Learns" the site (see but can't visit: compare "visitable")
-Site.prototype.learn = function() {
+Site.prototype.learn = function(visitable) {
 	if (!this.button) {
+		if (!visitable) {
+			var news = document.createElement("div");
+			news.innerHTML = "News of &ldquo;" + this.name + "&rdquo;. It has been added to your map.";
+			document.getElementById("map").appendChild(news);
+		}
 		this.button = mapAddSite(this.name, this.x, this.y, this);
 		this.button.disabled = true;
 	}
@@ -19,13 +26,16 @@ Site.prototype.learn = function() {
 
 // "Learns" this site + makes it visitable
 Site.prototype.visitable = function() {
-	this.learn();
+	this.learn(true);
+	var news = document.createElement("div");
+	news.innerHTML = "You can now visit &ldquo;" + this.name + "&rdquo;.";
+	document.getElementById("map").appendChild(news);
 	this.button.disabled = false;
 }
 
 // When visiting "this", you will instantly learn about "other".
 // Use "enounters" 
-Site.prototype.pathTo = function(other, path) {
+Site.prototype.path = function(other, path) {
 	this.neighbors.push(other);
 };
 
@@ -34,8 +44,10 @@ Site.prototype.visit = function() {
 	// What happens when you click the button to come to this place.
 	var s = document.getElementById("site");
 	s.innerHTML = "<h3>" + this.name + "</h3>";
+	for (var i = 0; i < this.neighbors.length; i++) {
+		this.neighbors[i].visitable();
+	}
 }
-
 
 
 // Begin building the world I guess...
@@ -43,3 +55,6 @@ Site.prototype.visit = function() {
 
 var town = new Site("Town of Starting", 0, 0);
 town.visitable();
+
+var forest = new Site("Forest of Nightmares", 200, -20);
+town.path(forest);

@@ -1,3 +1,5 @@
+"use strict";
+
 // Centers the view of the map on (x, y)
 function mapCenter(x, y) {
 	mapcross.style.left = -(x << 0) + 320 + "px";

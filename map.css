@@ -14,7 +14,7 @@ body {
 	height: 300px;
 	overflow: hidden;
 }
-#map h3 {
+#map div, #map h3 {
 	color: #AAA;
 	padding-left: 1em;
 }

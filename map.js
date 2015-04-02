@@ -26,6 +26,7 @@ mapCenter(0,0); // Center on the origin to begin.
 // Creates a new button with text "name" at (x, y). Site is a site object.
 // Right now it calls "visit" on the site when the user wants to visit a site.
 function mapAddSite(name, x, y, site) {
+	site.known = true;
 	var b = document.createElement("button");
 	b.textContent = name;
 	b.style.position = "absolute";
@@ -72,8 +73,10 @@ function renderMapCanvas() {
 		var neighbors = site.neighbors;
 		for (var j = 0; j < neighbors.length; ++j) {
 			var neighbor = neighbors[j];
-			ctx.moveTo( site.x, site.y );
-			ctx.lineTo( neighbor.x, neighbor.y );
+			if (neighbor.known) {
+				ctx.moveTo( site.x, site.y );
+				ctx.lineTo( neighbor.x, neighbor.y );
+			}
 		}
 	}
 

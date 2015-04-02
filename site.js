@@ -170,7 +170,7 @@ Flavor.prototype.happen = function() {
 		text = text[ Math.random() * text.length << 0];
 	}
 	reportText(text);
-	currentSite.discover();
+	currentSite.explore();
 };
 
 

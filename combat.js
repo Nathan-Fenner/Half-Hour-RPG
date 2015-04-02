@@ -114,6 +114,8 @@ function winCombat() {
 		acquireItem( item );
 	}
 	acquireGold( gold );
+
+	currentSite.explore();
 }
 
 document.getElementById("combat_button_attack").onclick = function() {

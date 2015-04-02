@@ -1,5 +1,8 @@
 "use strict";
 
+// The site that is currently being visited.
+var currentSite = null;
+
 function Site(name, x, y) {
 	this.name = name;
 	this.known = false;
@@ -43,12 +46,18 @@ Site.prototype.path = function(other, path) {
 	this.neighbors.push(other);
 };
 
-// What happens when this site is clicked.
-Site.prototype.visit = function() {
+// Discovers all adjacent sites (if an encounter is selected, only SUCCESFULLY
+// dealing with the encounter should trigger this.)
+Site.prototype.explore = function() {
 	// What happens when you click the button to come to this place.
 	for (var i = 0; i < this.neighbors.length; i++) {
 		this.neighbors[i].visitable();
 	}
+}
+
+// What happens when this site is clicked.
+Site.prototype.visit = function() {
+	currentSite = this;
 	// Show site details
 	document.getElementById("sitetitle").innerHTML = this.name;
 	var s = document.getElementById("site");
@@ -62,6 +71,9 @@ Site.prototype.visit = function() {
 		total += this.encounters[i].chance;
 	}
 	total *= Math.random();
+	if (this.encounters.length == 0) {
+		this.explore();
+	}
 	for (var i = 0; i < this.encounters.length; i++) {
 		if (total <= this.encounters[i].chance) {
 			this.encounters[i].happen();
@@ -73,6 +85,8 @@ Site.prototype.visit = function() {
 	}
 }
 
+// Removes the given encounter from the list of encounters (use this for
+// one-time-encounters)
 Site.prototype.removeEncounter = function(en) {
 	this.encounters.splice( this.encounters.indexOf(en) , 1 );
 }
@@ -141,13 +155,22 @@ CombatEncounter.prototype.happen = function() {
 	enterCombat(this.name);
 };
 
+// Shows flavortext text (text may also be a array of strings; picks randomly)
+// Chance is the weight of this event.
+// NOTE: This will "explore" the current site -- thus revealing adjacent
+// sites, even though there is no challenge here.
 function Flavor(text, chance) {
 	this.text = text;
 	this.chance = chance || 1;
 }
 
 Flavor.prototype.happen = function() {
-	reportText(this.text);
+	var text = this.text;
+	if (text instanceof Array) {
+		text = text[ Math.random() * text.length << 0];
+	}
+	reportText(text);
+	currentSite.discover();
 };
 
 

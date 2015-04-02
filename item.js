@@ -249,6 +249,10 @@ function useItem(item) {
 		equipWeapon(item);
 	} else if (item.type === "armor") {
 		equipArmor(item);
+	} else if (item.type === "consumable") {
+		item.use();
+	} else if (item.type === "splash" && playerMode === "combat") {
+		item.use();
 	} else {
 		doesSomething = false;
 	}

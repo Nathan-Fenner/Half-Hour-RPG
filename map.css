@@ -4,6 +4,10 @@ body {
 	font-family: "Segoe UI", Ubuntu, Helvetica, sans-serif;
 }
 
+button {
+	font-family: Arial;
+	font-size:14px;
+}
 
 #map {
 	margin: 0;

@@ -3,11 +3,11 @@
 var enemyName = "";
 
 var enemyStats = {};
-enemyStats.goblin = 			{ health: 30	, attack: 3		, defense: 10	, experience: 15	, loot: ["dagger","leather armor","sword"]	 };
-enemyStats["goblin chief"] = 	{ health: 60	, attack: 6		, defense: 20	, experience: 30	, loot: ["sword","iron platemail","mithril chainmail"] };
-enemyStats.troll = 				{ health: 150	, attack: 40	, defense: 10	, experience: 40	, loot: ["sword", "iron platemail","warhammer"] };
-enemyStats.dragon = 			{ health: 30000	, attack: 300	, defense: 98	, experience: 10000	, loot: ["sword of flames", "mithril chainmail","warhammer"] };
-enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, experience: 20000	, loot: ["ringmail of light", "mithril chainmail","warhammer"] };
+enemyStats.goblin = 			{ health: 30	, attack: 3		, defense: 10	, experience: 15	, loot: ["copper dagger","leather armor","steel sword"]	 };
+enemyStats["goblin chief"] = 	{ health: 60	, attack: 6		, defense: 20	, experience: 30	, loot: ["steel sword","iron platemail","mithril platemail"] };
+enemyStats.troll = 				{ health: 150	, attack: 40	, defense: 10	, experience: 40	, loot: ["steel sword", "iron platemail","war axe"] };
+enemyStats.dragon = 			{ health: 30000	, attack: 300	, defense: 98	, experience: 10000	, loot: ["spectral sword of despair", "mithril platemail","war axe"] };
+enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, experience: 20000	, loot: ["mithril platemail", "mithril chainmail","war axe"] };
 
 function enterCombat(name) {
 	enemyName = name;
@@ -88,22 +88,27 @@ function leaveCombat() {
 }
 
 function winCombat() {
-	var xp = enemyStats[enemyName].experience;
+	
+	var enemy = enemyStats[enemyName];
+
+	var xp = enemy.experience;
+
+
 	
 	var item = null;
-	if (Math.random() < 0.5 && enemyStats[enemyName].loot && enemyStats[enemyName].loot.length > 0) {
+	if (Math.random() < 0.5 && enemy.loot && enemy.loot.length > 0) {
 		// win an item
-		item = enemyStats[enemyName].loot[Math.floor(Math.random()*enemyStats[enemyName].loot.length)];
-		
+		var selection = Math.floor(Math.random() * enemy.loot.length);
+		item = new Item(enemy.loot[selection]);
 	}
 	var gold = 0;
-	if (Math.random() < 0.75) {
-		gold = Math.floor(Math.max(Math.sqrt(enemyStats[enemyName].experience) * 10 + Math.random() * 100 - 50,0) + 10);
+	if (Math.random() < 0.75 || item === null) {
+		gold = Math.floor(Math.max(Math.sqrt(enemy.experience) * 10 + Math.random() * 100 - 50,0) + 10);
 	}
 	var summary = "<h4>You defeated the " + enemyName + "!</h4>\n+"
 	summary += xp + " XP<br>\n";
 	if (item) {
-		summary += "You found a <b>" + describe(item) + "</b>!<br>\n";
+		summary += "You found a <b>" + item.describe() + "</b>!<br>\n";
 	}
 	if (gold) {
 		summary += "You got <b>" + gold + " gold</b>!";

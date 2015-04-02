@@ -46,7 +46,7 @@ function gainExperience(exp) {
 }
 
 function playerTakeDamage(amount) {
-	var armor = stats[playerArmor].defense;
+	var armor = playerArmor.defense;
 	amount = Math.ceil( amount * (1 - armor / 100) );
 	playerHealth -= amount;
 	playerHealth = Math.max(0, playerHealth);
@@ -65,7 +65,7 @@ function playerMaxHeal() {
 }
 
 function getPlayerAttack() {
-	var attack = stats[playerWeapon].attack;
+	var attack = playerWeapon.attack;
 	var amount = Math.ceil( attack * (1 + Math.random()) / 2);
 	return amount;
 }

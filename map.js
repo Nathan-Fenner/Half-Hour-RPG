@@ -1,7 +1,12 @@
 "use strict";
 
+var mapCenterX = 0;
+var mapCenterY = 0;
+
 // Centers the view of the map on (x, y)
 function mapCenter(x, y) {
+	mapCenterX = x;
+	mapCenterY = y;
 	mapcross.style.left = -(x << 0) + 320 + "px";
 	mapcross.style.top = -(y << 0) + 150 + "px";
 }

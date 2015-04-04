@@ -18,4 +18,5 @@ function renderNews() {
 		ul.appendChild(li);
 	}
 	news.appendChild(ul);
+	news.scrollTop = news.scrollHeight;
 }

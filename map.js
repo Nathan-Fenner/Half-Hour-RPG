@@ -40,8 +40,7 @@ function mapAddSite(name, x, y, site) {
 	b.style.width = w + "px";
 	b.style.height = h + "px";
 	b.onclick = function() {
-		site.visit();
-		mapCenter(x, y);
+		site.focus();
 	}
 	document.getElementById("mapcross").appendChild(b);
 	allKnownSites.push({name:name, x:x, y:y, site:site});

@@ -19,6 +19,13 @@ button {
 	overflow: hidden;
 }
 
+#mapsub {
+	text-align:center;
+	width:600px;
+	margin-top:1em;
+	visibility:hidden;
+}
+
 #canvas_map {
 	margin:0;
 	padding:0;
@@ -28,6 +35,7 @@ button {
 	width:100%;
 	height:100%;
 	background:#EEE;
+	z-index: -100;
 }
 
 #map div, #map h3 {

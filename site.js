@@ -3,6 +3,10 @@
 // The site that is currently being visited.
 var currentSite = null;
 
+document.getElementById("map_visit").onclick = function() {
+	currentSite.visit();
+}
+
 function Site(name, x, y) {
 	this.name = name;
 	this.known = false;
@@ -55,9 +59,16 @@ Site.prototype.explore = function() {
 	}
 }
 
+// 
+Site.prototype.focus = function() {
+	mapCenter(this.x, this.y);
+	map_visit.textContent = "Enter " + this.name;
+	currentSite = this;
+	map_visit.style.visibility = "visible";
+};
+
 // What happens when this site is clicked.
 Site.prototype.visit = function() {
-	currentSite = this;
 	// Show site details
 	document.getElementById("sitetitle").innerHTML = this.name;
 	var s = document.getElementById("site");

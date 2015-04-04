@@ -34,10 +34,7 @@ Site.prototype.learn = function(visitable) {
 Site.prototype.visitable = function() {
 	this.learn(true);
 	if (this.button.disabled) {
-		var news = document.createElement("div");
-		news.innerHTML = "Discovered &ldquo;" + this.name + "&rdquo;.";
-		var map = document.getElementById("mapnews");
-		map.insertBefore(news, map.firstChild);
+		addNews("Discovered &ldquo;" + this.name + "&rdquo;.");
 		this.button.disabled = false;
 	}
 }

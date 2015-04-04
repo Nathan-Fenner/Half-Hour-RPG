@@ -106,14 +106,18 @@ function winCombat() {
 	}
 	var summary = "<h4>You defeated the " + enemyName + "!</h4>\n+"
 	summary += xp + " XP<br>\n";
+	var brief = "You defeated the " + enemyName + "! (" + xp + " xp)";
 	if (item) {
 		summary += "You found a <b>" + item.describe() + "</b>!<br>\n";
+		brief += "\nYou found a <b>" + item.describe() + "!";
 	}
 	if (gold) {
 		summary += "You got <b>" + gold + " gold</b>!";
+		brief += "\nYou got <b>" + gold + " gold!";
 	}
+	
 	reportText(summary);
-	addNews(summary);
+	addNews(brief);
 	gainExperience( xp );
 	if (item) {
 		acquireItem( item );

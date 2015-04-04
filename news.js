@@ -4,7 +4,11 @@
 var newsList = [];
 
 function addNews(news) {
-	newsList.push(news);
+	news = news.trim().replace(/\n+/g,"\n");
+	news = news.split("\n");
+	for (var i = 0; i < news.length; i++) {
+		newsList.push(news[i]);
+	}
 	renderNews();
 }
 

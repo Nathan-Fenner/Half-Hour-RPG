@@ -67,6 +67,7 @@ function enemyTurn() {
 
 function combatAdvance() {
 	if (!playerLiving()) {
+		addNews("You died!");
 		alert("You died!");
 	}
 	if (!enemyLiving()) {
@@ -75,6 +76,7 @@ function combatAdvance() {
 	}
 	enemyTurn();
 	if (!playerLiving()) {
+		addNews("You died!");
 		alert("You died!");
 	}
 	if (!enemyLiving()) {
@@ -111,6 +113,7 @@ function winCombat() {
 		summary += "You got <b>" + gold + " gold</b>!";
 	}
 	reportText(summary);
+	addNews(summary);
 	gainExperience( xp );
 	if (item) {
 		acquireItem( item );

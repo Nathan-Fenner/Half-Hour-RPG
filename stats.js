@@ -31,7 +31,9 @@ function playerExperienceNeeded() {
 
 function levelup() {
 	player.level++;
-	reportText("You went up a level! You are now <b>level " + player.level + "</b>.");
+	var message = "You went up a level! You are now <b>level " + player.level + "</b>.";
+	reportText(message);
+	addNews(message);
 }
 
 function gainExperience(exp) {

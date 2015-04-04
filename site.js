@@ -88,8 +88,7 @@ Site.prototype.visit = function() {
 	for (var i = 0; i < this.encounters.length; i++) {
 		if (total <= this.encounters[i].chance) {
 			this.encounters[i].happen();
-			document.getElementById("site").style.display = "none";
-			document.getElementById("map").style.display = "none";
+			hideMap();
 			break;
 		}
 		total -= this.encounters[i].chance;

@@ -9,17 +9,24 @@ enemyStats.troll = 				{ health: 150	, attack: 40	, defense: 10	, experience: 40
 enemyStats.dragon = 			{ health: 30000	, attack: 300	, defense: 98	, experience: 10000	, loot: ["spectral sword of despair", "mithril platemail","war axe"] };
 enemyStats["ancient dragon"] =	{ health: 30000	, attack: 200	, defense: 99	, experience: 20000	, loot: ["mithril platemail", "mithril chainmail","war axe"] };
 
+// Shows combat UI, hides map UI
 function enterCombat(name) {
 	enemyName = name;
 	enemyHealth = enemyStats[enemyName].health;
 	enemyStats[enemyName].attack;
-	document.getElementById("site").style.display = "none";
-	document.getElementById("map").style.display = "none";
+	hideMap();
 	document.getElementById("combat").style.display = "block";
 	combatRender();
 	playerMode = "combat";
 }
 
+// Returns the UI that was hidden when the encounter started
+function leaveCombat() {
+	showMap();
+	document.getElementById("combat").style.display = "none";
+	document.getElementById("encounter").style.display = "none";
+	playerMode = "explore";
+}
 
 var enemyHealth = 0;
 
@@ -78,23 +85,13 @@ function combatAdvance() {
 }
 
 
-// Returns the UI that was hidden when the encounter started
-function leaveCombat() {
-	document.getElementById("site").style.display = "block";
-	document.getElementById("map").style.display = "block";
-	document.getElementById("combat").style.display = "none";
-	document.getElementById("encounter").style.display = "none";
-	playerMode = "explore";
-}
+
 
 function winCombat() {
-	
 	var enemy = enemyStats[enemyName];
 
 	var xp = enemy.experience;
 
-
-	
 	var item = null;
 	if (Math.random() < 0.5 && enemy.loot && enemy.loot.length > 0) {
 		// win an item

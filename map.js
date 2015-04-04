@@ -21,6 +21,17 @@ function mapCenter(x, y) {
 }
 mapCenter(0,0); // Center on the origin to begin.
 
+function hideMap() {
+	document.getElementById("site").style.display = "none";
+	document.getElementById("map").style.display = "none";
+	document.getElementById("mapsub").style.display = "none";
+}
+
+function showMap() {
+	document.getElementById("site").style.display = "block";
+	document.getElementById("mapsub").style.display = "block";
+	document.getElementById("map").style.display = "block";
+}
 
 
 // Creates a new button with text "name" at (x, y). Site is a site object.

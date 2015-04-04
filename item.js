@@ -68,6 +68,25 @@ function armorDescribe(armor) {
 var itemDataTable = {};
 itemDataTable.weapon = {type:"weapon", describeFun: weaponDescribe};
 itemDataTable.armor = {type:"armor", describeFun: armorDescribe};
+itemDataTable.consumable = {type:"consumable"};
+
+
+function potionDescribe(potion) {
+	var amount = potion.amount + "";
+	if (potion.amount >= 0) {
+		amount = "+" + amount;
+	}
+	return "Potion of " + potion.label + " {" + amount + "}";
+}
+
+function potionUse(potion) {
+	player[potion.stat] += potion.amount;
+	dropItem(potion);
+}
+
+itemDataTable.potion = {parent:"consumable", describeFun:potionDescribe, useFun:potionUse};
+
+itemDataTable["healing potion"] = {parent:"potion", label:"healing", stat: "health", amount:50};
 
 itemDataTable["fists"] = {parent:"weapon", attack:2};
 itemDataTable["copper dagger"] = {parent:"weapon", attack: 10};
@@ -102,6 +121,9 @@ function Item(name) {
 }
 Item.prototype.describe = function() {
 	return this.describeFun(this);
+};
+Item.prototype.use = function() {
+	return this.useFun(this);
 };
 
 

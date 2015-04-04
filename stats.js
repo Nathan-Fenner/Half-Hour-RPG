@@ -18,28 +18,26 @@ renderStats()
 
 */
 
-var playerHealth = 100;
-var playerMaxHealth = 100;
-var playerLevel = 1;
-var playerExperience = 0;
+var player = {health:100, maxHealth:100, level: 1, experience:0};
+
 
 function playerLiving() {
-	return playerHealth > 0;
+	return player.health > 0;
 }
 
 function playerExperienceNeeded() {
-	return Math.floor(Math.pow(10, 0.75 + playerLevel / 4) );
+	return Math.floor(Math.pow(10, 0.75 + player.level / 4) );
 }
 
 function levelup() {
-	playerLevel++;
-	reportText("You went up a level! You are now <b>level " + playerLevel + "</b>.");
+	player.level++;
+	reportText("You went up a level! You are now <b>level " + player.level + "</b>.");
 }
 
 function gainExperience(exp) {
-	playerExperience += exp;
-	while (playerExperience >= playerExperienceNeeded()) {
-		playerExperience -= playerExperienceNeeded();
+	player.experience += exp;
+	while (player.experience >= playerExperienceNeeded()) {
+		player.experience -= playerExperienceNeeded();
 		levelup();
 	}
 	renderStats();
@@ -48,19 +46,19 @@ function gainExperience(exp) {
 function playerTakeDamage(amount) {
 	var armor = playerArmor.defense;
 	amount = Math.ceil( amount * (1 - armor / 100) );
-	playerHealth -= amount;
-	playerHealth = Math.max(0, playerHealth);
+	player.health -= amount;
+	player.health = Math.max(0, player.health);
 	renderStats();
 }
 
 function playerHeal(amount) {
-	playerHealth += amount;
-	playerHealth = Math.min(playerHealth, playerMaxHealth);
+	player.health += amount;
+	player.health = Math.min(player.health, player.maxHealth);
 	renderStats();
 }
 
 function playerMaxHeal() {
-	playerHealth = playerMaxHealth;
+	player.health = player.maxHealth;
 	renderStats();
 }
 
@@ -74,11 +72,11 @@ function getPlayerAttack() {
 function renderStats() {
 	var stats = document.createElement("ul");
 	var health = document.createElement("li");
-	health.innerHTML = "Health: " + playerHealth + " / " + playerMaxHealth;
+	health.innerHTML = "Health: " + player.health + " / " + player.maxHealth;
 	var level = document.createElement("li");
-	level.innerHTML = "Level: " + playerLevel;
+	level.innerHTML = "Level: " + player.level;
 	var experience = document.createElement("li");
-	experience.innerHTML = "Experience: " + playerExperience + " / " + playerExperienceNeeded();
+	experience.innerHTML = "Experience: " + player.experience + " / " + playerExperienceNeeded();
 	stats.appendChild(health);
 	stats.appendChild(level);
 	stats.appendChild(experience);

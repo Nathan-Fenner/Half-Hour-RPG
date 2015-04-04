@@ -315,7 +315,7 @@ function renderInventory() {
 		li.innerHTML = item.describe() + " ";
 		var button = document.createElement("button");
 		button.innerHTML = "Use";
-		button.onmousedown = useItemClosure(item);
+		button.onclick = useItemClosure(item);
 		li.appendChild(button);
 		list.appendChild(li);
 	}

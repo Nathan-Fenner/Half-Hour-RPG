@@ -1,5 +1,5 @@
 body {
-	max-width: 8in;
+	max-width: 1000px;
 	margin: auto;
 	font-family: "Segoe UI", Ubuntu, Helvetica, sans-serif;
 }
@@ -53,4 +53,14 @@ button {
 
 button:disabled {
 	background: #AAA;
+}
+
+#left {
+	float: left;
+	width: 700px;
+}
+#right {
+	border-left: 1px solid #AAA;
+	float: right;
+	width: 280px;
 }

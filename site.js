@@ -22,10 +22,8 @@ function Site(name, x, y) {
 Site.prototype.learn = function(visitable) {
 	if (!this.button) {
 		if (!visitable) {
-			var news = document.createElement("div");
-			news.innerHTML = "News of &ldquo;" + this.name + "&rdquo;. It has been added to your map.";
-			var map = document.getElementById("mapnews");
-			map.insertBefore(news, map.firstChild);
+			addNews("News of &ldquo;" + this.name +
+				"&rdquo;. It has been added to your map.");
 		}
 		this.button = mapAddSite(this.name, this.x, this.y, this);
 		this.button.disabled = true;

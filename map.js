@@ -61,9 +61,6 @@ function mapAddSite(name, x, y, site) {
 	return b;
 }
 
-var news = document.createElement("div");
-news.id = "mapnews";
-document.getElementById("map").appendChild(news);
 
 
 function renderMapCanvas() {
